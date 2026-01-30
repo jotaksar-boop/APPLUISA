@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mis Datos Personales</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- MANIFEST -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- COLOR PARA ANDROID -->
+  <meta name="theme-color" content="#2196f3">
+
+  <!-- ESTILOS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="card">
+
+    <img src="icon.jpeg" class="avatar">
+
+    <h1>Mis Datos Personales</h1>
+
+    <p><strong>Nombre:</strong> Luisa Cevallos</p>
+    <p><strong>Carrera:</strong> TECNOLOGIA DE LA INFORMACION </p>
+    <p><strong>Institución:</strong> Uleam extension CHONE </p>
+    <p><strong>Correo:</strong> luisa@email.com</p>
+
+    <hr>
+
+    <h2>🤔 Adivinanza</h2>
+    <p id="pregunta"></p>
+
+    <input type="text" id="respuesta" placeholder="Escribe tu respuesta">
+    <button onclick="verificar()">Responder</button>
+
+    <p id="resultado"></p>
+    <p><strong>Puntaje:</strong> <span id="puntaje">0</span></p>
+
+    <span class="offline">Disponible sin conexión</span>
+  </div>
+
+  <script>
+    const adivinanzas = [
+      { pregunta: "Blanca por dentro, verde por fuera. ¿Qué es?", respuesta: "pera" },
+      { pregunta: "Vuelo sin alas y lloro sin ojos. ¿Qué soy?", respuesta: "nube" },
+      { pregunta: "Tiene agujas pero no cose. ¿Qué es?", respuesta: "reloj" },
+      { pregunta: "Mientras más le quitas, más grande es. ¿Qué es?", respuesta: "hoyo" }
+    ];
+
+    let actual = 0;
+    let puntos = 0;
+
+    document.getElementById("pregunta").innerText = adivinanzas[actual].pregunta;
+
+    function verificar() {
+      const r = document.getElementById("respuesta").value.toLowerCase();
+      if (r === adivinanzas[actual].respuesta) {
+        puntos++;
+        document.getElementById("resultado").innerText = "✅ Correcto";
+      } else {
+        document.getElementById("resultado").innerText = "❌ Incorrecto";
+      }
+
+      document.getElementById("puntaje").innerText = puntos;
+      document.getElementById("respuesta").value = "";
+
+      actual = (actual + 1) % adivinanzas.length;
+      document.getElementById("pregunta").innerText = adivinanzas[actual].pregunta;
+    }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
+</body>
+</html>
